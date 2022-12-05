@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace ShopTARgv21.Core.Domain
+namespace Shop.Models.Spaceship
 {
-    public class Spaceship
+    public class SpaceshipEditViewModel
     {
         [Key]
         public Guid? Id { get; set; }

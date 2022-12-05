@@ -8,7 +8,7 @@ namespace ShopTARgv21.Core.Dto
 {
     public class SpaceshipDto
     {
-        public Guid? ID { get; set; }
+        public Guid? Id { get; set; }
         public string Name { get; set; }
         public string ModelType { get; set; }
         public string SpaceshipBuider { get; set; }

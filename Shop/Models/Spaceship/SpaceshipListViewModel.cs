@@ -2,8 +2,9 @@
 
 namespace Shop.Models.Spaceship
 {
-    public class SpaceshipListViewModel : Controller
+    public class SpaceshipListViewModel
     {
+        public Guid? Id { get; set; }
         public string Name { get; set; }
         public string ModelType { get; set; }
         public string SpaceshipBuider { get; set; }
