@@ -20,9 +20,10 @@ namespace ShopTARgv21.ApplicationServices.Services
         }
 
 
-        public async Task<Spaceship> Add(SpaceshipDto dto)
+        public async Task<Spaceship> Create(SpaceshipDto dto)
         {
             Spaceship spaceship = new Spaceship();
+            FileToDatabase file = new FileToDatabase();
 
             spaceship.Id = dto.Id;
             spaceship.Name = dto.Name;
@@ -38,6 +39,10 @@ namespace ShopTARgv21.ApplicationServices.Services
             spaceship.CreatedAt = dto.CreatedAt;
             spaceship.ModifiedAt = dto.ModifiedAt;
 
+            if(dto.Files != null)
+            {
+                File.ImageData = UploadFile(dto, spaceship);
+            }
             await _context.Spaceship.AddAsync(spaceship);
             await _context.SaveChangesAsync();
 
@@ -88,6 +93,32 @@ namespace ShopTARgv21.ApplicationServices.Services
 
             return spaceship;
 
+        }
+
+        public byte[] UploadFile(SpaceshipDto dto, Spaceship domain)
+        {
+            if (dto.Files !=null && dto.Files.Count > 0 )
+            {
+                foreach(var photo in dto.Files)
+                {
+                    using (var target = new MemoryStream())
+                    {
+                        FileToDatabase files = new FileToDatabase
+                        {
+                            Id = Guid.NewGuid(),
+                            ImageTitle = photo.FileName,
+                            SpaceshipId = Guid.NewGuid(),
+
+                        };
+
+                        photo.CopyTo(target);
+                        files.ImageData = target.ToArray();
+
+                        _context.FileToDatabase.Add(files);
+                    }
+                }
+            }
+            return null;
         }
     }
 }

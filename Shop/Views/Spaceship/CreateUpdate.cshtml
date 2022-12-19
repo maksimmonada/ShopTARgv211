@@ -83,7 +83,10 @@ else
             </div>
         </div>
 
-             
+        @foreach (var images in Model.Image)     
+        {
+            <partial name="_Image" model="images" />
+        }
 
         @if (Model.Id.HasValue)
         {
@@ -91,7 +94,7 @@ else
         }
         else
         {
-            <input asp-action="create" asp-controller="spaceship" type="submit" class="btn btn-primary" value="Add" />
+            <input asp-action="create" asp-controller="spaceship" type="submit" class="btn btn-primary" value="Create" />
         }
 
         <a asp-action="Index" class="btn btn-primary">Index</a>
