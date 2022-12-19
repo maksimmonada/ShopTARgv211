@@ -143,7 +143,7 @@ namespace Shop.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> DeleteConfirmation(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
            
                 var spaceship = await _spaceshipServices.GetAsync(id);
@@ -170,12 +170,12 @@ namespace Shop.Controllers
 
                 };
 
-                return View();
+                return View(wm);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> DeleteConfirmation(Guid id)
         {
             var product = await _spaceshipServices.Delete(id);
             if(product == null)
