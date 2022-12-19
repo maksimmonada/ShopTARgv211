@@ -170,7 +170,7 @@ namespace Shop.Controllers
 
                 };
 
-                return View();
+                return View(wm);
         }
 
 
