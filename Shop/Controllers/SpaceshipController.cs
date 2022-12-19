@@ -44,16 +44,16 @@ namespace Shop.Controllers
 
         [HttpGet]
 
-        public IActionResult Add()
+        public IActionResult Create()
         {
             SpaceshipEditViewModel spaceship = new SpaceshipEditViewModel();    
 
-            return View("Edit", spaceship);
+            return View("CreateUpdate", spaceship);
         }
 
         [HttpPost]
 
-        public async Task<IActionResult> Add(SpaceshipViewModel vm)
+        public async Task<IActionResult> Create(SpaceshipViewModel vm)
         {
             var dto = new SpaceshipDto()
             {
@@ -83,7 +83,7 @@ namespace Shop.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(Guid id)
+        public async Task<IActionResult> Update(Guid id)
         {
             var spaceship = await _spaceshipServices.GetAsync(id);
             if (spaceship == null)
@@ -109,11 +109,11 @@ namespace Shop.Controllers
 
             };
 
-            return View(wm);
+            return View("CreateUpdate", wm);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(SpaceshipEditViewModel vm)
+        public async Task<IActionResult> Update(SpaceshipEditViewModel vm)
         {
             var dto = new SpaceshipDto()
             {
