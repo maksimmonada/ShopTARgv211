@@ -83,9 +83,19 @@ else
             </div>
         </div>
 
+        <div class="form-group row">
+            <label asp-for="Files" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-5">
+                <div class="custom-file">
+                <input class="form-control custom-file-input" asp-for="Files" multiple type="file" />
+                <label class="custom-file-label"></label>
+                </div>
+            </div>
+        </div>
+
         @foreach (var images in Model.Image)     
         {
-            <partial name="_Image" model="images" />
+            <partial name="_Images" model="images" />
         }
 
         @if (Model.Id.HasValue)
@@ -101,3 +111,21 @@ else
 
     </form>
 </div>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function() {
+            $('.cutom-file-input').on("change", function() {
+                var fileLabel = $(this).next('.custom-file-label');
+                var files = $(this)[0].files;
+                if (files.lenght > 1) {
+                    fileLabel.html(files.lenght + ' files selected');
+                }
+                else if (files.lenght == 1{
+                    fileLabel.html(files[0].name);
+                }
+            });
+        });
+    </script>
+}

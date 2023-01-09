@@ -25,7 +25,7 @@ namespace ShopTARgv21.ApplicationServices.Services
             Spaceship spaceship = new Spaceship();
             FileToDatabase file = new FileToDatabase();
 
-            spaceship.Id = dto.Id;
+            spaceship.Id = Guid.NewGuid();
             spaceship.Name = dto.Name;
             spaceship.ModelType = dto.ModelType;
             spaceship.SpaceshipBuider = dto.SpaceshipBuider;
@@ -41,7 +41,7 @@ namespace ShopTARgv21.ApplicationServices.Services
 
             if(dto.Files != null)
             {
-                File.ImageData = UploadFile(dto, spaceship);
+                file.ImageData = UploadFile(dto, spaceship);
             }
             await _context.Spaceship.AddAsync(spaceship);
             await _context.SaveChangesAsync();
@@ -107,7 +107,7 @@ namespace ShopTARgv21.ApplicationServices.Services
                         {
                             Id = Guid.NewGuid(),
                             ImageTitle = photo.FileName,
-                            SpaceshipId = Guid.NewGuid(),
+                            SpaceshipId = domain.Id,
 
                         };
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Shop.Models.Spaceship;
 using ShopTARgv21.Core.Dto;
 using ShopTARgv21.Core.ServiceInterface;
@@ -73,7 +74,7 @@ namespace Shop.Controllers
                 Files = vm.Files,
                 Image = vm.Image.Select(x => new FileToDatabaseDto
                 {
-                    Id = x.Id,
+                    Id = x.ImageId,
                     ImageData = x.ImageData,
                     ImageTitle = x.ImageTitle,
                     SpaceshipId = x.SpaceshipId,
@@ -100,23 +101,32 @@ namespace Shop.Controllers
                 return NotFound();
             }
 
-            var wm = new SpaceshipEditViewModel()
-            {
-                Id = spaceship.Id,
-                Name = spaceship.Name,
-                ModelType = spaceship.ModelType,
-                SpaceshipBuider = spaceship.SpaceshipBuider,
-                PlaceOfBuild = spaceship.PlaceOfBuild,
-                EnginePower = spaceship.EnginePower,
-                LiftUpToSpaceByTonn = spaceship.LiftUpToSpaceByTonn,
-                Crew = spaceship.Crew,
-                Passengers = spaceship.Passengers,
-                LaunchDate = spaceship.LaunchDate,
-                BuildOfDate = spaceship.BuildOfDate,
-                CreatedAt = spaceship.CreatedAt,
-                ModifiedAt = spaceship.ModifiedAt,
+            var photos = await _context.FileToDatabase
+                .Where(x => x.SpaceshipId == id)
+                .Select(y => new ImageViewModel
+                {
+                    ImageData = y.ImageData,
+                    ImageId = y.Id,
+                    Image = string.Format("data:image/gif;base64,{0}", Convert.ToBase64String(y.ImageData)),
+                    ImageTitle = y.ImageTitle,
+                    SpaceshipId = y.Id
+                }).ToArrayAsync();
 
-            };
+            var wm = new SpaceshipEditViewModel();
+                wm.Id = spaceship.Id;
+                wm.Name = spaceship.Name;
+                wm.ModelType = spaceship.ModelType;
+                wm.SpaceshipBuider = spaceship.SpaceshipBuider;
+                wm.PlaceOfBuild = spaceship.PlaceOfBuild;
+                wm.EnginePower = spaceship.EnginePower;
+                wm.LiftUpToSpaceByTonn = spaceship.LiftUpToSpaceByTonn;
+                wm.Crew = spaceship.Crew;
+                wm.Passengers = spaceship.Passengers;
+                wm.LaunchDate = spaceship.LaunchDate;
+                wm.BuildOfDate = spaceship.BuildOfDate;
+                wm.CreatedAt = spaceship.CreatedAt;
+                wm.ModifiedAt = spaceship.ModifiedAt;
+                wm.Image.AddRange(photos);
 
             return View("CreateUpdate", wm);
         }
